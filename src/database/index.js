@@ -5,8 +5,10 @@ import mongoose from 'mongoose'
 import User from '../app/models/User.js';
 import Product from '../app/models/Product.js';
 import Category from '../app/models/Category.js';
+import dotenv from 'dotenv'
 
 const models = [User, Product, Category];
+dotenv.config()
 
 class Database {
   constructor() {
@@ -15,24 +17,26 @@ class Database {
   }
 
   init() {
-    this.connection = new Sequelize('postgresql://postgres:JWmmiyQQCPShqqzHKQsplQnoyGQqiiBo@junction.proxy.rlwy.net:27649/railway', {
-      
+    this.connection = new Sequelize('postgresql://luan_kyu1_user:pSycvwIWQYQXBInpwwezAqvmB7JyHOtU@dpg-cr29nftsvqrc73cld4r0-a/luan_kyu1', {
+
     });
 
-   
+
     models
       .map(model => model.init(this.connection))
       .map(model => model.associate && model.associate(this.connection.models));
-    
+
     console.log('Conexão com o banco de dados PostgreSQL estabelecida com sucesso');
   }
 
   mongo() {
     this.mongoConnection = mongoose.connect(
-
-      'mongodb://mongo:hotvIbaZApgOTAYbeMEFWyjjYDLoxZdB@autorack.proxy.rlwy.net:12668',
+      process.env.MONGO_URL,
+      {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+      },
     )
-
   }
 }
 
