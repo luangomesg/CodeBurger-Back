@@ -27,7 +27,7 @@ class ProductController {
       return response.status(401).json({ error: 'Unauthorized' });
     }
 
-    
+
     const { filename: path } = request.file || {};
     const { name, price, category_id, offer } = request.body;
 
@@ -76,7 +76,7 @@ class ProductController {
     }
 
     const { name, price, category_id, offer } = request.body;
-    
+
     const path = request.file ? request.file.filename : findProduct.path;
 
     try {
@@ -89,6 +89,27 @@ class ProductController {
     } catch (error) {
       return response.status(500).json({ error: 'Internal Server Error' });
     }
+  }
+
+  async delete(request, response) {
+    const { admin: isAdmin } = await User.findByPk(request.userId)
+
+    if (!isAdmin) {
+      return response
+        .status(401)
+        .json({ message: 'only admin users are authorized' })
+    }
+
+    const id = request.params.id
+
+    const product = await Product.findById(id)
+
+    if (!product) {
+      return response.status(401).json({ mesage: 'make sure your product ID is correct ' })
+    }
+
+    await Product.destroy(product)
+    return response.status(200).json({ message: 'Product deleted successfully' })
   }
 
   async index(request, response) {
