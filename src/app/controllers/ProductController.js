@@ -110,29 +110,27 @@ class ProductController {
   }
 
   async delete(request, response) {
-    if (!request.userId) {
-      return response.status(401).json({ error: 'Unauthorized' });
+    const { admin: isAdmin } = await User.findByPk(request.userId)
+
+    if (!isAdmin) {
+      return response
+        .status(401)
+        .json({ message: 'only admin users are authorized' })
     }
 
-    const user = await User.findByPk(request.userId);
-    if (!user || !user.admin) {
-      return response.status(401).json({ error: 'Unauthorized' });
-    }
+    const { id } = request.params
 
-    const { id } = request.params;
-
-    const product = await Product.findByPk(id);
+    const product = await Product.findByPk(id)
 
     if (!product) {
-      return response.status(404).json({ error: 'Product not found' });
+      return response
+        .status(401)
+        .json({ error: 'make sure your product ID is correct' })
     }
 
-    try {
-      await Product.destroy({ where: { id } });
-      return response.status(200).json({ message: 'Product deleted successfully' });
-    } catch (error) {
-      return response.status(500).json({ error: 'Internal Server Error' });
-    }
+    await Product.destroy({ where: { id } })
+
+    return response.status(200).json({ message: 'Product deleted successfully' })
   }
 
 }
