@@ -5,7 +5,7 @@ import routes from '../routes.js';
 import '../database/index.js';
 
 const corsOptions = {
-  origin: '*',
+  origin: 'https://code-burger-front-weld.vercel.app',
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
@@ -21,7 +21,6 @@ class App {
 
   middlewares() {
     this.app.use(cors(corsOptions));
-    this.app.options('*', cors(corsOptions));
     this.app.use(express.json());
 
     this.app.use((req, res, next) => {
@@ -29,7 +28,7 @@ class App {
       next();
     });
 
-    
+
     this.app.use(
       '/product-file',
       express.static(resolve('uploads'))
