@@ -15,12 +15,13 @@ const corsOptions = {
 class App {
   constructor() {
     this.app = express();
+    this.app.use(cors(corsOptions));
     this.middlewares();
     this.routes();
   }
 
   middlewares() {
-    this.app.use(cors(corsOptions));
+
     this.app.use(express.json());
 
     this.app.use((req, res, next) => {

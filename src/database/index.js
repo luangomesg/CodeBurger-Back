@@ -6,7 +6,6 @@ import User from '../app/models/User.js';
 import Product from '../app/models/Product.js';
 import Category from '../app/models/Category.js';
 import dotenv from 'dotenv'
-import config from '../config/database.js';
 
 const models = [User, Product, Category];
 dotenv.config()
