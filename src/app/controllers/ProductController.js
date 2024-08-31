@@ -102,13 +102,13 @@ class ProductController {
 
     const id = request.params.id
 
-    const product = await Product.findById(id)
+    const product = await Product.findByPk(id)
 
     if (!product) {
       return response.status(401).json({ mesage: 'make sure your product ID is correct ' })
     }
 
-    await Product.destroy(product)
+    await Product.destroy({ where: { id } })
     return response.status(200).json({ message: 'Product deleted successfully' })
   }
 
