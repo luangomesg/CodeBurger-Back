@@ -6,6 +6,7 @@ import User from '../app/models/User.js';
 import Product from '../app/models/Product.js';
 import Category from '../app/models/Category.js';
 import dotenv from 'dotenv'
+import config from '../config/database.js';
 
 const models = [User, Product, Category];
 dotenv.config()
@@ -17,7 +18,7 @@ class Database {
   }
 
   init() {
-    this.connection = new Sequelize('postgresql://luan_kyu1_user:pSycvwIWQYQXBInpwwezAqvmB7JyHOtU@dpg-cr29nftsvqrc73cld4r0-a/luan_kyu1', {
+    this.connection = new Sequelize(process.env.POSTGRES_URL, {
 
     });
 
@@ -32,10 +33,7 @@ class Database {
   mongo() {
     this.mongoConnection = mongoose.connect(
       process.env.MONGO_URL,
-      {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-      },
+
     )
   }
 }
