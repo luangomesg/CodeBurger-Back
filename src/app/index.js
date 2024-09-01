@@ -29,14 +29,14 @@ class App {
       next();
     });
 
-
+    // Atualiza o caminho para o diretório temporário /tmp
     this.app.use(
       '/product-file',
-      express.static(resolve('uploads'))
+      express.static('/tmp')
     );
     this.app.use(
       '/category-file',
-      express.static(resolve('uploads'))
+      express.static('/tmp')
     );
   }
 
